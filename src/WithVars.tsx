@@ -23,10 +23,10 @@ export const WithVars: DecoratorFunction = (StoryFn, context) => {
   });
 
   return (
-    <>
+    <div>
       <style>{styling}</style>
 
       {StoryFn()}
-    </>
+    </div>
   );
 };
