@@ -22,11 +22,9 @@ export const WithVars: DecoratorFunction = (StoryFn, context) => {
     },
   });
 
-  return (
-    <div>
-      <style>{styling}</style>
+  const style = document.createElement("style");
+  style.nodeValue = styling;
+  window.document.body.prepend(style);
 
-      {StoryFn()}
-    </div>
-  );
+  return StoryFn;
 };
