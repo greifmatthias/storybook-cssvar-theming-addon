@@ -1,8 +1,9 @@
 import React from "react";
+
 import { Button } from "./Button";
 
 export default {
-  title: "Example/Button",
+  title: "Button",
   component: Button,
   parameters: {
     myAddonParameter: `
@@ -17,12 +18,19 @@ const Template = (args) => <Button {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  primary: true,
+  variant: "primary",
   label: "Button",
 };
 
 export const Secondary = Template.bind({});
 Secondary.args = {
+  variant: "secondary",
+  label: "Button",
+};
+
+export const Tertiary = Template.bind({});
+Tertiary.args = {
+  variant: "tertiary",
   label: "Button",
 };
 

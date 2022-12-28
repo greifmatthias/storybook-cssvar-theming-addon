@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Css Var theming addon for Storybook",
   "keywords": [
-    "storybook-addons", "storybook-addons"
+    "storybook-addons"
   ],
   "repository": {
     "type": "git",
@@ -46,6 +46,7 @@
     "@babel/preset-typescript": "7.18.6",
     "@storybook/addon-essentials": "6.5.15",
     "@storybook/react": "6.5.15",
+    "@types/react": "18.0.26",
     "auto": "10.37.6",
     "babel-loader": "9.1.0",
     "boxen": "7.0.1",

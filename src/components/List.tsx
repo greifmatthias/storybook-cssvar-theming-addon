@@ -1,6 +1,9 @@
 import React, { Fragment, useState } from "react";
 import { styled, themes, convert } from "@storybook/theming";
-import { Icons, IconsProps } from "@storybook/components";
+import { IconButton, Icons, IconsProps } from "@storybook/components";
+import { useChannel, useGlobals } from "@storybook/api";
+
+import { EVENTS, PARAM_KEY } from "../constants";
 
 const ListWrapper = styled.ul({
   listStyle: "none",
@@ -13,20 +16,6 @@ const Wrapper = styled.div({
   display: "flex",
   width: "100%",
   borderBottom: `1px solid ${convert(themes.normal).appBorderColor}`,
-  "&:hover": {
-    background: convert(themes.normal).background.hoverable,
-  },
-});
-
-const Icon = styled(Icons)<IconsProps>({
-  height: 10,
-  width: 10,
-  minWidth: 10,
-  color: convert(themes.normal).color.mediumdark,
-  marginRight: 10,
-  transition: "transform 0.1s ease-in-out",
-  alignSelf: "center",
-  display: "inline-flex",
 });
 
 const HeaderBar = styled.div({
@@ -45,51 +34,59 @@ const HeaderBar = styled.div({
   },
 });
 
-const Description = styled.div({
-  padding: convert(themes.normal).layoutMargin,
-  marginBottom: convert(themes.normal).layoutMargin,
-  fontStyle: "italic",
-});
-
-type Item = {
-  title: string;
-  description: string;
+export type ListItemProps = {
+  name: string;
 };
 
-interface ListItemProps {
-  item: Item;
-}
+export const ListItem: React.FC<ListItemProps> = ({ name }) => {
+  const [globals, updateGlobals] = useGlobals();
 
-export const ListItem: React.FC<ListItemProps> = ({ item }) => {
-  const [open, onToggle] = useState(false);
+  const [value, setValue] = useState<string>(() => "");
+
+  const emit = useChannel({
+    [EVENTS.RESULT]: (newValue) => {
+      if (newValue[name]) setValue(newValue[name]);
+    },
+  });
+
+  const doEmit = () => emit(EVENTS.REQUEST, { name });
+
+  const onChange = (newValue: string) => {
+    updateGlobals({
+      [PARAM_KEY]: {
+        ...globals[PARAM_KEY],
+        [name]: newValue,
+      },
+    });
+  };
 
   return (
     <Fragment>
       <Wrapper>
-        <HeaderBar onClick={() => onToggle(!open)} role="button">
-          <Icon
-            icon="chevrondown"
-            color={convert(themes.normal).appBorderColor}
-            style={{
-              transform: `rotate(${open ? 0 : -90}deg)`,
-            }}
-          />
-          {item.title}
-        </HeaderBar>
+        <HeaderBar>{name}</HeaderBar>
+
+        <IconButton onClick={doEmit} style={{ marginRight: 12 }}>
+          <Icons icon="sync" />
+        </IconButton>
+
+        <input
+          type="text"
+          defaultValue={value}
+          onChange={(e) => onChange(e.target.value)}
+        />
       </Wrapper>
-      {open ? <Description>{item.description}</Description> : null}
     </Fragment>
   );
 };
 
-interface ListProps {
-  items: Item[];
-}
+export type ListProps = {
+  items: Array<string>;
+};
 
 export const List: React.FC<ListProps> = ({ items }) => (
   <ListWrapper>
-    {items.map((item, idx) => (
-      <ListItem key={idx} item={item}></ListItem>
+    {items.map((item) => (
+      <ListItem key={`listitem-${item}`} name={item}></ListItem>
     ))}
   </ListWrapper>
 );
