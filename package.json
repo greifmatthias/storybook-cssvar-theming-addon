@@ -1,5 +1,5 @@
 {
-  "name": "@greifmatthias/storbook-cssvar-theming-addon",
+  "name": "@greifmatthias/storybook-cssvar-theming-addon",
   "version": "0.0.1",
   "description": "Css Var theming addon for Storybook",
   "keywords": [
