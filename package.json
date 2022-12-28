@@ -1,6 +1,6 @@
 {
   "name": "@greifmatthias/storybook-cssvar-theming-addon",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Css Var theming addon for Storybook",
   "keywords": [
     "storybook-addons"
@@ -41,17 +41,21 @@
   "devDependencies": {
     "@babel/cli": "7.20.7",
     "@babel/core": "7.20.7",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-decorators": "^7.20.7",
     "@babel/preset-env": "7.20.2",
     "@babel/preset-react": "7.18.6",
     "@babel/preset-typescript": "7.18.6",
     "@storybook/addon-essentials": "6.5.15",
     "@storybook/react": "6.5.15",
+    "@storybook/web-components": "6.5.15",
     "@types/react": "18.0.26",
     "auto": "10.37.6",
-    "babel-loader": "9.1.0",
+    "babel-loader": "8.3.0",
     "boxen": "7.0.1",
     "concurrently": "7.6.0",
     "dedent": "0.7.0",
+    "lit": "2.5.0",
     "prettier": "2.8.1",
     "prop-types": "15.8.1",
     "react": "18.2.0",
