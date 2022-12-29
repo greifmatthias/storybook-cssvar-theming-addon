@@ -11,13 +11,9 @@
     "lib": ["es2017", "dom"],
     "module": "commonjs",
     "noImplicitAny": true,
-    "rootDir": "./src",
+    "rootDir": ".",
     "skipLibCheck": true,
-    "target": "es5",
-    "paths": {
-      "components": ["./components"],
-      "consts": ["./constants"]
-    }
+    "target": "es5"
   },
   "include": ["src/**/*"]
 }

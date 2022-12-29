@@ -2,8 +2,8 @@ import { useParameter } from "@storybook/api";
 import { AddonPanel } from "@storybook/components";
 import React, { FC } from "react";
 
-import { List } from "components/List";
-import { PARAM_KEY } from "consts";
+import { PARAM_KEY } from "../../constants";
+import { List } from "../List";
 
 import { PanelProps } from "./Panel.types";
 

@@ -1,8 +1,10 @@
 import { useChannel, useGlobals } from "@storybook/api";
 import { convert, themes } from "@storybook/theming";
-import React, { FC, Fragment, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 
-import { EVENTS, PARAM_KEY } from "consts";
+import { EVENTS, PARAM_KEY } from "../../constants";
+import { isColor } from "../../helpers";
+import { Input } from "../Input";
 
 import S from "./List.styles";
 import { ListItemProps, ListProps } from "./List.types";
@@ -21,6 +23,8 @@ export const ListItem: FC<ListItemProps> = ({ name }) => {
   useEffect(() => emit(EVENTS.REQUEST, { name }), []);
 
   const onChange = (newValue: string) => {
+    setValue(newValue);
+
     updateGlobals({
       [PARAM_KEY]: {
         ...globals[PARAM_KEY],
@@ -30,17 +34,15 @@ export const ListItem: FC<ListItemProps> = ({ name }) => {
   };
 
   return (
-    <Fragment>
-      <S.Wrapper>
-        <S.HeaderBar>{name}</S.HeaderBar>
+    <S.Row>
+      <S.LabelText>{name}</S.LabelText>
 
-        <input
-          type="text"
-          defaultValue={value}
-          onChange={(e) => onChange(e.target.value)}
-        />
-      </S.Wrapper>
-    </Fragment>
+      <S.InputContainer>
+        {isColor(value) ? <S.ColorIndicator value={value} /> : null}
+
+        <Input value={value} onChange={(e) => onChange(e.target.value)} />
+      </S.InputContainer>
+    </S.Row>
   );
 };
 

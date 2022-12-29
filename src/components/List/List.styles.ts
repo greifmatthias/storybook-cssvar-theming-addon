@@ -1,6 +1,10 @@
 import { Icons, IconsProps } from "@storybook/components";
 import { convert, styled, themes } from "@storybook/theming";
 
+type StyledWithValue = {
+  value: any;
+};
+
 const ListWrapper = styled.ul({
   listStyle: "none",
   fontSize: 14,
@@ -8,11 +12,32 @@ const ListWrapper = styled.ul({
   margin: 0,
 });
 
-const Wrapper = styled.div({
-  display: "flex",
+const Row = styled.div({
   width: "100%",
+  display: "flex",
+  alignItems: "center",
+  paddingLeft: convert(themes.normal).layoutMargin,
+  paddingRight: convert(themes.normal).layoutMargin,
   borderBottom: `1px solid ${convert(themes.normal).appBorderColor}`,
 });
+
+const LabelText = styled.p({
+  flex: 1,
+});
+
+const InputContainer = styled("div")(() => ({
+  display: "flex",
+  alignItems: "center",
+  gap: convert(themes.normal).layoutMargin,
+}));
+
+const ColorIndicator = styled("div")<StyledWithValue>(({ value }) => ({
+  width: 20,
+  height: 20,
+  borderRadius: 10,
+  backgroundColor: value,
+  border: `1px solid ${convert(themes.normal).appBorderColor}`,
+}));
 
 const Icon = styled(Icons)<IconsProps>({
   height: 10,
@@ -32,16 +57,16 @@ const HeaderBar = styled.div({
   textAlign: "left",
   cursor: "pointer",
   width: "100%",
-
-  "&:focus": {
-    outline: "0 none",
-    borderLeft: `3px solid ${convert(themes.normal).color.secondary}`,
-  },
 });
 
 export default {
   ListWrapper,
-  Wrapper,
+
+  Row,
+  LabelText,
+  InputContainer,
+  ColorIndicator,
+
   Icon,
   HeaderBar,
 };
