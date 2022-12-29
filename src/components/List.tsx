@@ -1,6 +1,6 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { styled, themes, convert } from "@storybook/theming";
-import { IconButton, Icons, IconsProps } from "@storybook/components";
+import { Icons, IconsProps } from "@storybook/components";
 import { useChannel, useGlobals } from "@storybook/api";
 
 import { EVENTS, PARAM_KEY } from "../constants";
@@ -16,6 +16,17 @@ const Wrapper = styled.div({
   display: "flex",
   width: "100%",
   borderBottom: `1px solid ${convert(themes.normal).appBorderColor}`,
+});
+
+const Icon = styled(Icons)<IconsProps>({
+  height: 10,
+  width: 10,
+  minWidth: 10,
+  color: convert(themes.normal).color.mediumdark,
+  marginRight: 10,
+  transition: "transform 0.1s ease-in-out",
+  alignSelf: "center",
+  display: "inline-flex",
 });
 
 const HeaderBar = styled.div({
@@ -49,7 +60,7 @@ export const ListItem: React.FC<ListItemProps> = ({ name }) => {
     },
   });
 
-  const doEmit = () => emit(EVENTS.REQUEST, { name });
+  useEffect(() => emit(EVENTS.REQUEST, { name }), []);
 
   const onChange = (newValue: string) => {
     updateGlobals({
@@ -65,10 +76,6 @@ export const ListItem: React.FC<ListItemProps> = ({ name }) => {
       <Wrapper>
         <HeaderBar>{name}</HeaderBar>
 
-        <IconButton onClick={doEmit} style={{ marginRight: 12 }}>
-          <Icons icon="sync" />
-        </IconButton>
-
         <input
           type="text"
           defaultValue={value}
@@ -83,10 +90,44 @@ export type ListProps = {
   items: Array<string>;
 };
 
-export const List: React.FC<ListProps> = ({ items }) => (
-  <ListWrapper>
-    {items.map((item) => (
-      <ListItem key={`listitem-${item}`} name={item}></ListItem>
-    ))}
-  </ListWrapper>
-);
+export const List: React.FC<ListProps> = ({ items }) => {
+  const itemsBySection: Record<string, Array<string>> = {};
+  items.forEach((x) => {
+    const sectionName = x.replace("--", "").split("-")[0];
+
+    if (!itemsBySection[sectionName]) itemsBySection[sectionName] = [];
+
+    itemsBySection[sectionName].push(x);
+  });
+
+  const [openedSection, openSection] = useState<string>(() => "");
+
+  const onToggleClick = (newSection: string) => {
+    openSection((x) => (x === newSection ? "" : newSection));
+  };
+
+  return (
+    <ListWrapper>
+      {Object.keys(itemsBySection).map((x) => (
+        <ListWrapper key={`list-section-${x}`}>
+          <HeaderBar onClick={() => onToggleClick(x)} role="button">
+            <Icon
+              icon="chevrondown"
+              color={convert(themes.normal).appBorderColor}
+              style={{
+                transform: `rotate(${open ? 0 : -90}deg)`,
+              }}
+            />
+            {x}
+          </HeaderBar>
+
+          {openedSection === x
+            ? itemsBySection[x].map((y) => (
+                <ListItem key={`listitem-${y}`} name={y}></ListItem>
+              ))
+            : null}
+        </ListWrapper>
+      ))}
+    </ListWrapper>
+  );
+};

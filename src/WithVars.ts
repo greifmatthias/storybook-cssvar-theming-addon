@@ -23,9 +23,7 @@ export const WithVars: DecoratorFunction = (StoryFn, context) => {
     },
   });
 
-  const style = document.createElement("style");
-  style.nodeValue = styling;
-  window.document.body.prepend(style);
+  document.body.insertAdjacentHTML("beforeend", `<style>${styling}</style>`);
 
   return StoryFn();
 };

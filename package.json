@@ -1,6 +1,6 @@
 {
   "name": "@greifmatthias/storybook-cssvar-theming-addon",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Css Var theming addon for Storybook",
   "keywords": [
     "storybook-addons"
@@ -34,7 +34,7 @@
     "start": "concurrently \"yarn build:watch\" \"yarn storybook -- --no-manager-cache --quiet\"",
     "build-storybook": "build-storybook",
     "prerelease": "zx scripts/prepublish-checks.mjs",
-    "release": "yarn build && auto shipit",
+    "release": "yarn build",
     "eject-ts": "zx scripts/eject-typescript.mjs",
     "update": "npx npm-check-updates -u && yarn install"
   },
