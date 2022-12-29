@@ -1,3 +1,15 @@
+# v1.0.2 (Thu Dec 29 2022)
+
+#### ⚠️ Pushed to `main`
+
+- Cleanup ([@vrtgreifmatthias](https://github.com/vrtgreifmatthias))
+
+#### Authors: 1
+
+- [@vrtgreifmatthias](https://github.com/vrtgreifmatthias)
+
+---
+
 # v1.0.1 (Thu Dec 29 2022)
 
 #### ⚠️ Pushed to `main`
