@@ -3,8 +3,21 @@
   "version": "1.0.0",
   "description": "Css Var theming addon for Storybook",
   "keywords": [
-    "storybook-addons"
+    "storybook-addons",
+    "style",
+    "css"
   ],
+  "storybook": {
+    "displayName": "CSSVar theming",
+    "unsupportedFrameworks": [
+      "react-native"
+    ],
+    "supportedFrameworks": [
+      "react",
+      "web-components"
+    ],
+    "icon": "https://user-images.githubusercontent.com/321738/63501763-88dbf600-c4cc-11e9-96cd-94adadc2fd72.png"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook-cssvar-theming-addon"
@@ -34,7 +47,7 @@
     "start": "concurrently \"yarn build:watch\" \"yarn storybook -- --no-manager-cache --quiet\"",
     "build-storybook": "build-storybook",
     "prerelease": "zx scripts/prepublish-checks.mjs",
-    "release": "yarn build",
+    "release": "yarn build && auto shipit",
     "eject-ts": "zx scripts/eject-typescript.mjs",
     "update": "npx npm-check-updates -u && yarn install"
   },
@@ -79,12 +92,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "storybook": {
-    "displayName": "CssVar Theming",
-    "supportedFrameworks": [
-      "react"
-    ],
-    "icon": "https://user-images.githubusercontent.com/321738/63501763-88dbf600-c4cc-11e9-96cd-94adadc2fd72.png"
   }
 }
