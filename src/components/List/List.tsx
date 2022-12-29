@@ -1,55 +1,13 @@
-import React, { Fragment, useEffect, useState } from "react";
-import { styled, themes, convert } from "@storybook/theming";
-import { Icons, IconsProps } from "@storybook/components";
 import { useChannel, useGlobals } from "@storybook/api";
+import { convert, themes } from "@storybook/theming";
+import React, { FC, Fragment, useEffect, useState } from "react";
 
-import { EVENTS, PARAM_KEY } from "../constants";
+import { EVENTS, PARAM_KEY } from "consts";
 
-const ListWrapper = styled.ul({
-  listStyle: "none",
-  fontSize: 14,
-  padding: 0,
-  margin: 0,
-});
+import S from "./List.styles";
+import { ListItemProps, ListProps } from "./List.types";
 
-const Wrapper = styled.div({
-  display: "flex",
-  width: "100%",
-  borderBottom: `1px solid ${convert(themes.normal).appBorderColor}`,
-});
-
-const Icon = styled(Icons)<IconsProps>({
-  height: 10,
-  width: 10,
-  minWidth: 10,
-  color: convert(themes.normal).color.mediumdark,
-  marginRight: 10,
-  transition: "transform 0.1s ease-in-out",
-  alignSelf: "center",
-  display: "inline-flex",
-});
-
-const HeaderBar = styled.div({
-  padding: convert(themes.normal).layoutMargin,
-  paddingLeft: convert(themes.normal).layoutMargin - 3,
-  background: "none",
-  color: "inherit",
-  textAlign: "left",
-  cursor: "pointer",
-  borderLeft: "3px solid transparent",
-  width: "100%",
-
-  "&:focus": {
-    outline: "0 none",
-    borderLeft: `3px solid ${convert(themes.normal).color.secondary}`,
-  },
-});
-
-export type ListItemProps = {
-  name: string;
-};
-
-export const ListItem: React.FC<ListItemProps> = ({ name }) => {
+export const ListItem: FC<ListItemProps> = ({ name }) => {
   const [globals, updateGlobals] = useGlobals();
 
   const [value, setValue] = useState<string>(() => "");
@@ -73,24 +31,20 @@ export const ListItem: React.FC<ListItemProps> = ({ name }) => {
 
   return (
     <Fragment>
-      <Wrapper>
-        <HeaderBar>{name}</HeaderBar>
+      <S.Wrapper>
+        <S.HeaderBar>{name}</S.HeaderBar>
 
         <input
           type="text"
           defaultValue={value}
           onChange={(e) => onChange(e.target.value)}
         />
-      </Wrapper>
+      </S.Wrapper>
     </Fragment>
   );
 };
 
-export type ListProps = {
-  items: Array<string>;
-};
-
-export const List: React.FC<ListProps> = ({ items }) => {
+export const List: FC<ListProps> = ({ items }) => {
   const itemsBySection: Record<string, Array<string>> = {};
   items.forEach((x) => {
     const sectionName = x.replace("--", "").split("-")[0];
@@ -107,11 +61,11 @@ export const List: React.FC<ListProps> = ({ items }) => {
   };
 
   return (
-    <ListWrapper>
+    <S.ListWrapper>
       {Object.keys(itemsBySection).map((x) => (
-        <ListWrapper key={`list-section-${x}`}>
-          <HeaderBar onClick={() => onToggleClick(x)} role="button">
-            <Icon
+        <S.ListWrapper key={`list-section-${x}`}>
+          <S.HeaderBar onClick={() => onToggleClick(x)} role="button">
+            <S.Icon
               icon="chevrondown"
               color={convert(themes.normal).appBorderColor}
               style={{
@@ -119,15 +73,15 @@ export const List: React.FC<ListProps> = ({ items }) => {
               }}
             />
             {x}
-          </HeaderBar>
+          </S.HeaderBar>
 
           {openedSection === x
             ? itemsBySection[x].map((y) => (
                 <ListItem key={`listitem-${y}`} name={y}></ListItem>
               ))
             : null}
-        </ListWrapper>
+        </S.ListWrapper>
       ))}
-    </ListWrapper>
+    </S.ListWrapper>
   );
 };
