@@ -9,7 +9,7 @@ export const WithVars: DecoratorFunction = (StoryFn, context) => {
   const vars = globals[PARAM_KEY] || [];
   const styling = `:root { ${Object.keys(vars)
     .map((x) => `${x}: ${vars[x]}`)
-    .join(";")} }`;
+    .join(";")}; }`.replace("{ ; }", "{ }");
 
   const emit = useChannel({
     [EVENTS.REQUEST]: ({ name }) => {

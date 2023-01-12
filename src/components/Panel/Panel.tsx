@@ -4,7 +4,8 @@ import React, { FC } from "react";
 
 import { PARAM_KEY } from "../../constants";
 import { List } from "../List";
-
+import { Output } from "../Output";
+import S from "./Panel.styles";
 import { PanelProps } from "./Panel.types";
 
 export const Panel: FC<PanelProps> = (props) => {
@@ -12,7 +13,11 @@ export const Panel: FC<PanelProps> = (props) => {
 
   return (
     <AddonPanel {...props}>
-      <List items={vars} />
+      <S.Root>
+        <List items={vars} />
+
+        <Output />
+      </S.Root>
     </AddonPanel>
   );
 };
